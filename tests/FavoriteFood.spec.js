@@ -1,6 +1,14 @@
 describe('Favorite Food Filter', function () {
-	var $controller, FavoriteFood;
-  var people = [
+  var $controller;
+ 
+  beforeEach(module('app'));
+
+  beforeEach(inject(function ($injector){
+      $filter = $injector.get('$filter');
+  }));
+
+  it('should filter on favorite food', function() {
+    var people = [
     {
       name: "John Doe",
       favoriteFood: "pizza"
@@ -12,22 +20,12 @@ describe('Favorite Food Filter', function () {
     {
       name: "Bill Gates",
       favoriteFood: "sushi"
-    }
-  ];
-
-	// beforeEach(module('app'));
-
-	beforeEach(function(){
-    module.apply('app');
-
-    inject(function($injector){
-      filter = $injector.get('$filter')('FavoriteFood');
-    });
+    }];
+  
+    var result = $filter('favoriteFood')(people, 'sushi');
+    
+    expect(result.length).toBe(2);
+    expect(result[0].favoriteFood).toBe('sushi');
   });
 
-  it('should filter on favorite food', function() {
-    // var result = $filter('FavoriteFood')('sushi', people)
-    expect(filter(people, 'sushi')).toBe('sushi');
-  })
-	
 });
